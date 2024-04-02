@@ -1,24 +1,14 @@
 "use client";
 
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
-import { useRouter } from "next/navigation";
-import { useEffect } from "react";
 
-export default function page() {
+
+export default function page({ params }) {
   const navigate = useRouter();
-
-  // Check token and if haven't the token then push to login page
-  let token;
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      token = localStorage.getItem("Token");
-    }
-    if (!token) {
-      navigate.push("/login");
-    }
-  }, []);
-
+  const id = params.id;
   const {
     register,
     formState: { errors },
@@ -26,14 +16,60 @@ export default function page() {
     reset,
   } = useForm();
 
+  const [task, setTask] = useState({});
+
+  // Check token and if haven't the token then push to login page
+  let token;
+  // Load task data
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      token = localStorage.getItem("Token");
+    }
+    if (!token) {
+      navigate.push("/login");
+    }
+
+    fetch(`http://localhost:4000/api/v1/task/${id}`, {
+      method: "GET",
+      headers: {
+        authorization: "Bearer " + localStorage.getItem("Token"),
+        "content-type": "application/json",
+      },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        reset({
+          taskTitle: data.taskTitle,
+          completion: data.completion,
+          teamLeader: data.teamLeader,
+          teamMemberNum: data.teamMemberNum,
+        });
+        setTask(data);
+      });
+  }, []);
+
   // Custom id for tostify
   const customId = "custom-id-yes";
 
-  // Handle create task
-  const handleCreateTask = (data) => {
+  // Handle task update function
+  const handleUpdateTask = (data) => {
+    // Checking is anyhing chanage to update ro not!
+    if (
+      data.taskTitle == task.taskTitle &&
+      data.completion == task.completion &&
+      data.teamLeader == task.teamLeader &&
+      data.teamMemberNum == task.teamMemberNum
+    ) {
+      toast.warning("Nothing was change to update!");
+      // Redirect to task page
+      navigate.push("/my-task");
+      reset();
+      return;
+    }
+
     if (data) {
-      fetch("http://localhost:400/api/v1/task", {
-        method: "POST",
+      fetch(`http://localhost:4000/api/v1/task/${id}`, {
+        method: "PATCH",
         headers: {
           authorization: "Bearer " + localStorage.getItem("Token"),
           "content-type": "application/json",
@@ -43,40 +79,42 @@ export default function page() {
         .then((res) => res.json())
         .then((data) => {
           if (data.status == "201") {
-            toast.success("A Task created succefully!");
             setReload(!reload);
+            toast.success("Task updated succefully!");
+            // Redirect to task page
+            navigate.push("/my-task");
           } else {
             toast.error(data.msg);
           }
         });
     }
+
     reset();
   };
-
   return (
     <div className="mt-10">
       <div className="flex justify-center items-center">
         <div className="md:w-[80%] w-full shadow-md border px-3 py-3 text-center">
-          <h3 className="text-xl font-semibold">Create a new Task</h3>
+          <h3 className="text-xl font-semibold">Update Task</h3>
           <form
-            onSubmit={handleSubmit(handleCreateTask)}
+            onSubmit={handleSubmit(handleUpdateTask)}
             className="my-3 flex flex-col gap-2"
           >
             <input
-              {...register("taskTitle", { required: true })}
+              {...register("taskTitle", { required: false })}
               type="text"
               placeholder="Task name"
               className="px-2 pl-4 py-2 rounded-full"
             />
             <p className="hidden">
               {errors?.taskTitle &&
-                toast.error("Task Name is required", { toastId: customId })}
+                toast.error("Taks Name is required", { toastId: customId })}
             </p>
 
             <input
               {...register("completion", { required: true })}
               type="text"
-              placeholder="Completion (%)"
+              placeholder="Updated Completion (%)"
               className="px-2 pl-4 py-2 rounded-full"
             />
             <p className="hidden">
@@ -86,48 +124,31 @@ export default function page() {
 
             {/* <div className="flex justify-between"> */}
             <input
-              {...register("teamLeader", { required: true })}
+              {...register("teamLeader", { required: false })}
               type="text"
               placeholder="Team Leader"
               className="px-2 pl-4 py-2 rounded-full"
             />
             <p className="hidden">
               {errors?.teamLeader &&
-                toast.error("Leader name is required", { toastId: customId })}
+                toast.error("Leader is required", { toastId: customId })}
             </p>
 
             <input
-              {...register("teamMemberNum", { required: true })}
+              {...register("teamMemberNum", { required: false })}
               type="number"
-              placeholder="Total Member"
+              placeholder="Update Team Members"
               className="px-2 pl-4 py-2 rounded-full"
             />
             <p className="hidden">
               {errors?.teamMemberNum &&
-                toast.error("Team members is required", { toastId: customId })}
+                toast.error("Members is required", { toastId: customId })}
             </p>
-            {/* </div> */}
-
-            {/* <div className="flex justify-between">
-              <input
-                {...register("name", { required: false })}
-                type="text"
-                placeholder="Member Name"
-                className="px-2 pl-4 py-2 w-[70%] rounded-full"
-              />
-              <button
-                type="text"
-                placeholder="Member Name"
-                className="px-4 border bg-blue-200 py-2 rounded-full text-[14px]"
-              >
-                Add Member
-              </button>
-            </div> */}
             <button
-              className=" px-2 py-1 text-white mt-2 bg-blue-500 rounded-full"
+              className=" px-2 py-1 text-white mt-2 bg-green-500 rounded-full"
               type="submit"
             >
-              Create Task
+              Update Task
             </button>
           </form>
         </div>
