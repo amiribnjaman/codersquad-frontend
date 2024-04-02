@@ -32,7 +32,7 @@ export default function page() {
   // Handle create task
   const handleCreateTask = (data) => {
     if (data) {
-      fetch("http://localhost:400/api/v1/task/", {
+      fetch("http://localhost:400/api/v1/task/createTask", {
         method: "POST",
         headers: {
           authorization: "Bearer " + localStorage.getItem("Token"),
