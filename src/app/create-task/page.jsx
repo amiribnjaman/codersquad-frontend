@@ -31,7 +31,25 @@ export default function page() {
 
   // Handle create task
   const handleCreateTask = (data) => {
-
+    if (data) {
+      fetch("http://localhost:400/api/v1/task/", {
+        method: "POST",
+        headers: {
+          authorization: "Bearer " + localStorage.getItem("Token"),
+          "content-type": "application/json",
+        },
+        body: JSON.stringify(data),
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          if (data.status == "201") {
+            toast.success("A Task created succefully!");
+            setReload(!reload);
+          } else {
+            toast.error(data.msg);
+          }
+        });
+    }
     reset();
   };
 
