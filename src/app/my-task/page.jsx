@@ -6,11 +6,11 @@ import Link from "next/link";
 import { toast } from "react-toastify";
 
 export default function page() {
-  const navigate = useRouter();
-  const [loading, setLoading] = useState(false);
-  const [tasks, setTasks] = useState([]);
   const [deleteConfirmationCard, setdeleteConfirmationCard] = useState(false);
   const [deleteConfirmationId, setdeleteConfirmationId] = useState("");
+  const [loading, setLoading] = useState(false);
+  const navigate = useRouter();
+  const [tasks, setTasks] = useState([]);
 
   // Check token and if haven't the token then push to login page
   let token;
@@ -21,7 +21,47 @@ export default function page() {
     if (!token) {
       navigate.push("/login");
     }
+
+    fetch("http://localhost:4000/api/v1/task", {
+      method: "GET",
+      headers: {
+        authorization: "Bearer " + localStorage.getItem("Token"),
+        "content-type": "application/json",
+      },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        setTasks(data);
+      });
   }, []);
+
+    
+  // Handle delete a task
+  const handleDeleteTask = () => {
+    token = localStorage.getItem("Token");
+    if (!token) {
+      navigate.push("/login");
+    } else {
+      fetch(`http://localhost:4000/api/v1/task/${deleteConfirmationId}`, {
+        method: "DELETE",
+        headers: {
+          authorization: "Bearer " + localStorage.getItem("Token"),
+          "content-type": "application/json",
+        },
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          if (data.status == "204") {
+            setReload(!reload);
+            toast.success("A task deleted!");
+          } else {
+            toast.error("Something went wrong");
+          }
+        });
+    }
+
+    setdeleteConfirmationCard(false);
+  };
 
   //--------------------------------PAGINATION
   //------------------------------
@@ -56,8 +96,7 @@ export default function page() {
   // Change current page
   const changeCurPage = (index) => {
     setCurrentPage(index);
-    };
-    
+  };
 
   return (
     <>
@@ -69,7 +108,7 @@ export default function page() {
             {loading ? (
               <span>...</span>
             ) : (
-              <button className="mt-1 cursor-pointer">
+              <button onClick={handleRefresh} className="mt-1 cursor-pointer">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
@@ -106,131 +145,134 @@ export default function page() {
               {/* card */}
 
               {/*-------------- SINGLE CARD ---------------*/}
-              {tasks.map((task) => (
-                <div className="shadow rounded">
-                  <div className="text-[15px] font-semibold p-4 relative">
-                    {task.completion < 100 ? (
-                      <span className="text-[10px] text-black absolute top-[-12px] right-[0px] bg-red-100 px-2 py-1 rounded-full">
-                        Incomplete
-                      </span>
-                    ) : (
-                      <span className="text-[10px] text-black absolute top-[-12px] right-[0px] bg-green-100 px-2 py-1 rounded-full">
-                        Completed
-                      </span>
-                    )}
-                    <p className="mb-2 text-[#2565e6] capitalize">
-                      {task.taskTitle}
-                    </p>
-                    <hr />
-                  </div>
-                  {/* Body */}
-                  <div className="px-3 pb-3">
-                    {/* Completion */}
-                    <div className="flex justify-between items-center">
-                      <h5
-                        className={`text-[11px] font-semibold ${
-                          task.completion < 100
-                            ? "text-red-500"
-                            : "text-green-600"
-                        }`}
-                      >
-                        {task.completion}% completed
-                      </h5>
-                      <button className="bg-green-100 text-sm rounded-full px-4 py-[2px] inline-block">
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          fill="none"
-                          viewBox="0 0 24 24"
-                          stroke-width=".5"
-                          stroke="currentColor"
-                          class="w-4 h-4"
-                        >
-                          <path
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                            d="M12 6v12m6-6H6"
-                          />
-                        </svg>
-                      </button>
-                    </div>
-                    {/* Team leader */}
-                    <div className="flex justify-between items-center mt-2">
-                      <h5 className="text-[12px] font-semibold">Team Leader</h5>
-                      <p className="bg-[#e1e9fa] text-[13px] rounded-full px-4 py-[2px] inline-block capitalize">
-                        {task.teamLeader}
+              {tasksData.length > 0 &&
+                tasksData.map((task) => (
+                  <div className="shadow rounded">
+                    <div className="text-[15px] font-semibold p-4 relative">
+                      {task.completion < 100 ? (
+                        <span className="text-[10px] text-black absolute top-[-12px] right-[0px] bg-red-100 px-2 py-1 rounded-full">
+                          Incomplete
+                        </span>
+                      ) : (
+                        <span className="text-[10px] text-black absolute top-[-12px] right-[0px] bg-green-100 px-2 py-1 rounded-full">
+                          Completed
+                        </span>
+                      )}
+                      <p className="mb-2 text-[#2565e6] capitalize">
+                        {task.taskTitle}
                       </p>
+                      <hr />
                     </div>
+                    {/* Body */}
+                    <div className="px-3 pb-3">
+                      {/* Completion */}
+                      <div className="flex justify-between items-center">
+                        <h5
+                          className={`text-[11px] font-semibold ${
+                            task.completion < 100
+                              ? "text-red-500"
+                              : "text-green-600"
+                          }`}
+                        >
+                          {task.completion}% completed
+                        </h5>
+                        <button className="bg-green-100 text-sm rounded-full px-4 py-[2px] inline-block">
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke-width=".5"
+                            stroke="currentColor"
+                            class="w-4 h-4"
+                          >
+                            <path
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              d="M12 6v12m6-6H6"
+                            />
+                          </svg>
+                        </button>
+                      </div>
+                      {/* Team leader */}
+                      <div className="flex justify-between items-center mt-2">
+                        <h5 className="text-[12px] font-semibold">
+                          Team Leader
+                        </h5>
+                        <p className="bg-[#e1e9fa] text-[13px] rounded-full px-4 py-[2px] inline-block capitalize">
+                          {task.teamLeader}
+                        </p>
+                      </div>
 
-                    {/* Members heading */}
-                    <div className="flex justify-between mt-2 items-center">
-                      <h5 className="text-[12px] font-semibold">
-                        Team Members
-                      </h5>
-                      <h5 className="text-[12px] font-semibold bg-blue-100 rounded-full px-2 py-[3px]">
-                        {task.teamMemberNum}
-                      </h5>
+                      {/* Members heading */}
+                      <div className="flex justify-between mt-2 items-center">
+                        <h5 className="text-[12px] font-semibold">
+                          Team Members
+                        </h5>
+                        <h5 className="text-[12px] font-semibold bg-blue-100 rounded-full px-2 py-[3px]">
+                          {task.teamMemberNum}
+                        </h5>
+                      </div>
+
+                      {/* Members body */}
+                      <div className="grid grid-cols-3 gap-2 mt-2">
+                        {task.teamMembers.map((element) => (
+                          <div className="bg-gray-200 px-1.5 text-sm py-[3px] rounded-full">
+                            <h6 className="text-[11px]">@{element}</h6>
+                          </div>
+                        ))}
+                      </div>
                     </div>
+                    {/* BOTTOM */}
+                    <div className="px-5 py-2 gap-2 flex">
+                      <Link
+                        href={`/update-task/${task.id}`}
+                        className="text-sm text-white px-4 py-1 bg-green-500 rounded-full"
+                      >
+                        Update
+                      </Link>
+                      <button
+                        onClick={() => {
+                          setdeleteConfirmationId(task.id);
+                          setdeleteConfirmationCard(true);
+                        }}
+                        className="text-sm px-3 py-1 bg-red-400 text-white rounded-full"
+                      >
+                        Delete
+                      </button>
 
-                    {/* Members body */}
-                    <div className="grid grid-cols-3 gap-2 mt-2">
-                      {task.teamMembers.map((element) => (
-                        <div className="bg-gray-200 px-1.5 text-sm py-[3px] rounded-full">
-                          <h6 className="text-[11px]">@{element}</h6>
+                      {/*------------------DELETE COMFIMATION BUTTON-------------- */}
+                      <div
+                        className={`${
+                          deleteConfirmationCard ? "block" : "hidden"
+                        } fixed z-50 left-[7%] top-[15%] md:left-[33%] shadow bg-white w-[330px] text-center rounded py-3 h-[170px] flex flex-col justify-center`}
+                        style={{ backdropFilter: "blur(8px)" }}
+                      >
+                        <div>
+                          <h5 className="text-[18px] font-semibold">
+                            Are you sure
+                          </h5>
+                          <h5 className="text-[18px] font-semibold">
+                            You want to Delete this?
+                          </h5>
                         </div>
-                      ))}
-                    </div>
-                  </div>
-                  {/* BOTTOM */}
-                  <div className="px-5 py-2 gap-2 flex">
-                    <Link
-                      href={`/update-task/${task.id}`}
-                      className="text-sm text-white px-4 py-1 bg-green-500 rounded-full"
-                    >
-                      Update
-                    </Link>
-                    <button
-                      onClick={() => {
-                        setdeleteConfirmationId(task.id);
-                        setdeleteConfirmationCard(true);
-                      }}
-                      className="text-sm px-3 py-1 bg-red-400 text-white rounded-full"
-                    >
-                      Delete
-                    </button>
-
-                    {/*------------------DELETE COMFIMATION BUTTON-------------- */}
-                    <div
-                      className={`${
-                        deleteConfirmationCard ? "block" : "hidden"
-                      } fixed z-50 left-[7%] top-[15%] md:left-[33%] shadow bg-white w-[330px] text-center rounded py-3 h-[170px] flex flex-col justify-center`}
-                      style={{ backdropFilter: "blur(8px)" }}
-                    >
-                      <div>
-                        <h5 className="text-[18px] font-semibold">
-                          Are you sure
-                        </h5>
-                        <h5 className="text-[18px] font-semibold">
-                          You want to Delete this?
-                        </h5>
-                      </div>
-                      <div className="flex gap-3 justify-center">
-                        <button
-                          onClick={() => setdeleteConfirmationCard(false)}
-                          className="bg-slate-600 px-5 py-2 mt-3 rounded-lg text-white"
-                        >
-                          Cancel
-                        </button>
-                        <button
-                          onClick=""
-                          className="bg-red-600 px-7 py-2 mt-3 rounded-lg text-white"
-                        >
-                          Yes, I'm!
-                        </button>
+                        <div className="flex gap-3 justify-center">
+                          <button
+                            onClick={() => setdeleteConfirmationCard(false)}
+                            className="bg-slate-600 px-5 py-2 mt-3 rounded-lg text-white"
+                          >
+                            Cancel
+                          </button>
+                          <button
+                            onClick={() => handleDeleteTask()}
+                            className="bg-red-600 px-7 py-2 mt-3 rounded-lg text-white"
+                          >
+                            Yes, I'm!
+                          </button>
+                        </div>
                       </div>
                     </div>
                   </div>
-                </div>
-              ))}
+                ))}
             </div>
           ) : (
             <div className="text-center flex justify-center items-center mt-10 gap-2">
