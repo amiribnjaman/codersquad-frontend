@@ -1,12 +1,10 @@
 "use client";
 
 import TopNavbar from "@/components/topNavbar";
-import { useEffect, useState } from "react";
 import Sidebar from "@/components/sidebar";
 import { ToastContainer } from "react-toastify";
 
 export default function LayoutComponent({ children }) {
-  // Those are declare here to props drillings (awful)
 
   return (
     <div className="md:flex ">

@@ -38,7 +38,7 @@ export default function page() {
   return (
     <div className="mt-8">
       <div className="flex justify-center items-center">
-        <div className="md:w-[60%] w-full shadow-md border px-3 py-2 text-center min-h-[200px]">
+        <div className="md:w-[60%] w-full shadow-md border px-5 py-8 text-center min-h-[200px]">
           <h3 className="text-xl font-semibold">Signup</h3>
           {/* {errors && <Toaster />} */}
           <form
