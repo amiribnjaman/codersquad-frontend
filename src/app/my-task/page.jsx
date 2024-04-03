@@ -244,7 +244,7 @@ export default function page() {
           </div>
         ) : (
           <div className="text-center flex justify-center items-center mt-10 gap-2">
-            <p>No task is available!</p>
+            <p>You don't create any task yet!</p>
             <button
               onClick={() => navigate.push("/create-task")}
               className="border border-[#2565e6] px-2 py-1 rounded-lg text-sm"
