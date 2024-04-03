@@ -10,10 +10,9 @@ export default function page() {
   const [deleteConfirmationCard, setdeleteConfirmationCard] = useState(false);
   const [deleteConfirmationId, setdeleteConfirmationId] = useState("");
   const navigate = useRouter();
-  const [tasks, setTasks] = useState([]);
 
   // SERACH CONTEXT VALUE
-  const { setReload, reload } = useContext(TaskContext);
+  const { setReload, reload, tasks } = useContext(TaskContext);
 
   // Check token and if haven't the token then push to login page
   let token;
@@ -23,21 +22,6 @@ export default function page() {
   if (!token) {
     navigate.push("/login");
   }
-
-  useEffect(() => {
-    fetch("http://localhost:4000/api/v1/task/my-task", {
-      method: "GET",
-      headers: {
-        authorization: "Bearer " + localStorage.getItem("Token"),
-        "content-type": "application/json",
-      },
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        console.log(data)
-        setTasks(data);
-      });
-  }, [reload]);
 
   // Handle delete a task
   const handleDeleteTask = () => {

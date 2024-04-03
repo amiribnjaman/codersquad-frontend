@@ -3,9 +3,13 @@
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
+import { useContext } from "react";
+import { TaskContext } from "../context/TaskContext";
 
 export default function page() {
-    const navigate = useRouter();
+  const navigate = useRouter();
+    const { setReload, reload } = useContext(TaskContext);
+
 
   // Check token and if haven't the token then push to login page
   let token;
@@ -39,9 +43,9 @@ export default function page() {
       })
         .then((res) => res.json())
         .then((data) => {
-          console.log(data)
           if (data.status == "201") {
             toast.success("A Task created succefully!");
+            setReload(!reload)
           } else {
             toast.error(data.msg);
           }

@@ -11,7 +11,6 @@ export default function LayoutComponent({ children }) {
   // Those are declare here to props drillings (awful)
   const [reload, setReload] = useState(false);
   const [tasks, setTasks] = useState([]);
-  const [oldData, setOldData] = useState([]);
 
   useEffect(() => {
     fetch("http://localhost:4000/api/v1/task", {
@@ -24,7 +23,6 @@ export default function LayoutComponent({ children }) {
       .then((res) => res.json())
       .then((data) => {
         setTasks(data);
-        setOldData(data);
       });
   }, [reload]);
 
@@ -41,10 +39,9 @@ export default function LayoutComponent({ children }) {
             setReload={setReload}
             tasks={tasks}
             setTasks={setTasks}
-            oldData={oldData}
           />
           <TaskContext.Provider
-            value={{ reload, setReload, tasks, setTasks, oldData, setOldData }}
+            value={{ reload, setReload, tasks, setTasks }}
           >
             <div className="min-h-[85vh] md:flex gap-6 justify-between">
               <div className="mt-4 p-4 pb-6 md:w-[90%] border">

@@ -87,7 +87,7 @@ export default function page({ params }) {
             // Redirect to task page
             navigate.push("/my-task");
           } else {
-            toast.error(data.msg);
+            toast.error("Sorry! You're not Authorized to Update this task!");
           }
         });
     }
