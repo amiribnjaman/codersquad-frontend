@@ -5,15 +5,13 @@ import TopNavbar from "@/components/topNavbar";
 import Footer from "@/components/footer";
 import { ToastContainer } from "react-toastify";
 import { useEffect, useState } from "react";
-import { SearchContext } from "@/app/context/SearchContext";
+import { TaskContext } from "@/app/context/TaskContext";
 
 export default function LayoutComponent({ children }) {
   // Those are declare here to props drillings (awful)
-  const [searchValue, setSearchValue] = useState("");
   const [reload, setReload] = useState(false);
   const [tasks, setTasks] = useState([]);
   const [oldData, setOldData] = useState([]);
-
 
   useEffect(() => {
     fetch("http://localhost:4000/api/v1/task", {
@@ -45,7 +43,7 @@ export default function LayoutComponent({ children }) {
             setTasks={setTasks}
             oldData={oldData}
           />
-          <SearchContext.Provider
+          <TaskContext.Provider
             value={{ reload, setReload, tasks, setTasks, oldData, setOldData }}
           >
             <div className="min-h-[85vh] md:flex gap-6 justify-between">
@@ -54,7 +52,7 @@ export default function LayoutComponent({ children }) {
                 {children}
               </div>
             </div>
-          </SearchContext.Provider>
+          </TaskContext.Provider>
           {/* Footer */}
           <Footer />
         </div>

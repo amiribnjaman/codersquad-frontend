@@ -1,4 +1,4 @@
 import { createContext } from "react";
 
 // Context api for search operation
-export const SearchContext = createContext('');
+export const TaskContext = createContext("");

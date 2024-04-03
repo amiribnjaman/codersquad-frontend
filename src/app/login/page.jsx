@@ -5,11 +5,11 @@ import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
 import { useContext } from "react";
-import { SearchContext } from "../context/SearchContext";
+import { TaskContext } from "../context/TaskContext";
 
 export default function page() {
   const navigate = useRouter();
-  const { setReload, reload } = useContext(SearchContext);
+  const { setReload, reload } = useContext(TaskContext);
 
   // Check token and if have the token then push to my task page
   let token;
@@ -42,6 +42,7 @@ export default function page() {
       })
         .then((res) => res.json())
         .then((data) => {
+          console.log(data)
           if (data.status == "200") {
             // Set token into localstorage
             localStorage.setItem("Token", data.token);

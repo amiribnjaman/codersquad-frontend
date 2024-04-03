@@ -2,7 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { useState, useEffect, useContext } from "react";
-import { SearchContext } from "../context/SearchContext";
+import { TaskContext } from "../context/TaskContext";
 import Link from "next/link";
 import { toast } from "react-toastify";
 
@@ -12,7 +12,7 @@ export default function page() {
   const navigate = useRouter();
 
   // SERACH CONTEXT VALUE
-  const { setReload, reload, tasks } = useContext(SearchContext);
+  const { setReload, reload, tasks } = useContext(TaskContext);
 
   // Check token and if haven't the token then push to login page
   let token;
@@ -293,8 +293,3 @@ export default function page() {
     </>
   );
 }
-
-// export const metadata = {
-//   title: "My Tasks - TaskTrack",
-//   description: "TaskTrack is a task management application",
-// };

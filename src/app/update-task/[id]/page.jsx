@@ -1,19 +1,14 @@
 "use client";
 
-import { SearchContext } from "@/app/context/SearchContext";
+import { TaskContext } from "@/app/context/TaskContext";
 import { useRouter } from "next/navigation";
 import { useContext, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 
-// const getTask = async (id) => {
-//   let data = await fetch(`http://localhost:4000/api/task/${id}`);
-//   data = await data.json();
-//   return data;
-// };
 
 export default function page({ params }) {
-  const { setReload, reload } = useContext(SearchContext);
+  const { setReload, reload } = useContext(TaskContext);
   const navigate = useRouter();
   const id = params.id;
   const {
@@ -163,8 +158,3 @@ export default function page({ params }) {
     </div>
   );
 }
-
-// export const metadata = {
-//   title: "Dashboard - TaskTrack",
-//   description: "TaskTrack is a task management application",
-// };

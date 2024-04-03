@@ -2,36 +2,11 @@ import React, { useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import Link from "next/link";
 
-export default function TopNavbar({ tasks, setTasks, oldData }) {
-  const [showSearchCard, setShowSearchCard] = useState(false);
+export default function TopNavbar() {
   const pathname = usePathname();
-  const [search, setSearch] = useState("");
   const getPath = pathname.split("/")[pathname.split("/").length - 1];
   const [showMenu, setShowMenu] = useState(false);
-
-  // Handle Search operation function
-  const handleSearch = (e) => {
-    let result;
-    if (search) {
-      // Filter out the task which match with search value
-      result = tasks.filter((task) => {
-        return task.taskTitle.toLowerCase() == search.toLowerCase()
-          ? task.taskTitle.toLowerCase() == search.toLowerCase()
-          : task.taskTitle.toLowerCase().includes(search.toLowerCase());
-      });
-    }
-    // Send filtered value
-    setTasks(result);
-    // Reset search fields
-    setSearch("");
-    setShowSearchCard(false);
-  };
-
-  // Handle Refresh function
-  const handleRefresh = () => {
-    setTasks(oldData);
-    setShowSearchCard(false);
-  };
+  
 
   // checking token for login/logout operation
   let token;
@@ -51,7 +26,7 @@ export default function TopNavbar({ tasks, setTasks, oldData }) {
       <div className="navbar flex py-4 items-center justify-between bg-white shadow-lg rounded-md px-8 sticky top-0">
         <div className="md:flex-1">
           <a
-            onClick={() => setShowSearchCard(!showSearchCard)}
+            
             className="cursor-pointer normal-case text-xl text-[#5d596c]"
           >
             <svg
@@ -70,55 +45,7 @@ export default function TopNavbar({ tasks, setTasks, oldData }) {
             </svg>
           </a>
 
-          {/*---------Search Card--------------- */}
-          <div
-            className={`${
-              showSearchCard ? "block" : "hidden"
-            } shadow-md rounded-md w-[270px] h-[90px] text-center flex flex-col justify-center items-center absolute top-[50px] left-[20%] bg-white`}
-          >
-            <div className="flex items-center">
-              <input
-                type="text"
-                className="border rounded px-4 py-1"
-                placeholder="Search by Task title"
-                onChange={(e) => setSearch(e.target.value)}
-                value={search}
-              />
-              <button
-                onClick={handleSearch}
-                className="bg-blue-500 py-1 px-1 rounded"
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke-width="1"
-                  stroke="currentColor"
-                  className="w-6 h-6 text-white"
-                >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"
-                  />
-                </svg>
-              </button>
-            </div>
-            <div className="flex gap-3 items-center mt-3">
-              <button
-                onClick={() => setShowSearchCard(false)}
-                className="bg-red-500 px-4 py-1 rounded text-white"
-              >
-                Cancel
-              </button>
-              <button
-                onClick={handleRefresh}
-                className="bg-green-500 px-4 py-1 rounded text-white"
-              >
-                Refresh
-              </button>
-            </div>
-          </div>
+          
         </div>
 
         <div className="flex items-center gap-6">
@@ -254,7 +181,7 @@ export default function TopNavbar({ tasks, setTasks, oldData }) {
                       d="M9 12.75L11.25 15 15 9.75M21 12c0 1.268-.63 2.39-1.593 3.068a3.745 3.745 0 01-1.043 3.296 3.745 3.745 0 01-3.296 1.043A3.745 3.745 0 0112 21c-1.268 0-2.39-.63-3.068-1.593a3.746 3.746 0 01-3.296-1.043 3.745 3.745 0 01-1.043-3.296A3.745 3.745 0 013 12c0-1.268.63-2.39 1.593-3.068a3.745 3.745 0 011.043-3.296 3.746 3.746 0 013.296-1.043A3.746 3.746 0 0112 3c1.268 0 2.39.63 3.068 1.593a3.746 3.746 0 013.296 1.043 3.746 3.746 0 011.043 3.296A3.745 3.745 0 0121 12z"
                     />
                   </svg>
-                  My Task
+                  Task
                 </Link>
               </li>
               <li
@@ -280,7 +207,7 @@ export default function TopNavbar({ tasks, setTasks, oldData }) {
                       d="M15 19.128a9.38 9.38 0 002.625.372 9.337 9.337 0 004.121-.952 4.125 4.125 0 00-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 018.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0111.964-3.07M12 6.375a3.375 3.375 0 11-6.75 0 3.375 3.375 0 016.75 0zm8.25 2.25a2.625 2.625 0 11-5.25 0 2.625 2.625 0 015.25 0z"
                     />
                   </svg>
-                  My Team
+                  Team
                 </Link>
               </li>
               <li

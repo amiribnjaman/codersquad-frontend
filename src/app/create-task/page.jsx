@@ -133,8 +133,3 @@ export default function page() {
     </div>
   );
 }
-
-// export const metadata = {
-//   title: "Dashboard - TaskTrack",
-//   description: "TaskTrack is a task management application",
-// };
