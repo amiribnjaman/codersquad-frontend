@@ -31,7 +31,7 @@ export default function page({ params }) {
 
   // Load task data
   useEffect(() => {
-    fetch(`http://localhost:4000/api/task/${id}`, {
+    fetch(`http://localhost:4000/api/v1/task/${id}`, {
       method: "GET",
       headers: {
         authorization: "Bearer " + localStorage.getItem("Token"),
@@ -40,6 +40,7 @@ export default function page({ params }) {
     })
       .then((res) => res.json())
       .then((data) => {
+
         reset({
           taskTitle: data.taskTitle,
           completion: data.completion,
