@@ -25,10 +25,7 @@ export default function TopNavbar() {
     <div id="topbar" className="w-full mb-2 sticky top-0 pt-2 z-50">
       <div className="navbar flex py-4 items-center justify-between bg-white shadow-lg rounded-md px-8 sticky top-0">
         <div className="md:flex-1">
-          <a
-            
-            className="cursor-pointer normal-case text-xl text-[#5d596c]"
-          >
+          <a className="cursor-pointer normal-case text-xl text-[#5d596c]">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
@@ -44,8 +41,6 @@ export default function TopNavbar() {
               />
             </svg>
           </a>
-
-          
         </div>
 
         <div className="flex items-center gap-6">
@@ -160,6 +155,32 @@ export default function TopNavbar() {
               </li>
               <li
                 className={`mt-1 px-3 py-2  rounded-md ${
+                  getPath == "all-task" ? "sidebar__active" : ""
+                }`}
+              >
+                <Link
+                  href="/all-task"
+                  className={`text-[15px] flex gap-2 items-center`}
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke-width="1.5"
+                    stroke="currentColor"
+                    className="w-[21px] h-[21px]"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M9 12.75L11.25 15 15 9.75M21 12c0 1.268-.63 2.39-1.593 3.068a3.745 3.745 0 01-1.043 3.296 3.745 3.745 0 01-3.296 1.043A3.745 3.745 0 0112 21c-1.268 0-2.39-.63-3.068-1.593a3.746 3.746 0 01-3.296-1.043 3.745 3.745 0 01-1.043-3.296A3.745 3.745 0 013 12c0-1.268.63-2.39 1.593-3.068a3.745 3.745 0 011.043-3.296 3.746 3.746 0 013.296-1.043A3.746 3.746 0 0112 3c1.268 0 2.39.63 3.068 1.593a3.746 3.746 0 013.296 1.043 3.746 3.746 0 011.043 3.296A3.745 3.745 0 0121 12z"
+                    />
+                  </svg>
+                  All Task
+                </Link>
+              </li>
+              <li
+                className={`mt-1 px-3 py-2  rounded-md ${
                   getPath == "my-task" ? "sidebar__active" : ""
                 }`}
               >
@@ -181,7 +202,7 @@ export default function TopNavbar() {
                       d="M9 12.75L11.25 15 15 9.75M21 12c0 1.268-.63 2.39-1.593 3.068a3.745 3.745 0 01-1.043 3.296 3.745 3.745 0 01-3.296 1.043A3.745 3.745 0 0112 21c-1.268 0-2.39-.63-3.068-1.593a3.746 3.746 0 01-3.296-1.043 3.745 3.745 0 01-1.043-3.296A3.745 3.745 0 013 12c0-1.268.63-2.39 1.593-3.068a3.745 3.745 0 011.043-3.296 3.746 3.746 0 013.296-1.043A3.746 3.746 0 0112 3c1.268 0 2.39.63 3.068 1.593a3.746 3.746 0 013.296 1.043 3.746 3.746 0 011.043 3.296A3.745 3.745 0 0121 12z"
                     />
                   </svg>
-                  Task
+                  My Task
                 </Link>
               </li>
               <li

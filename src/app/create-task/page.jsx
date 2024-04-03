@@ -8,7 +8,7 @@ import { TaskContext } from "../context/TaskContext";
 
 export default function page() {
   const navigate = useRouter();
-    const { setReload, reload } = useContext(TaskContext);
+  const { setReload, reload } = useContext(TaskContext);
 
 
   // Check token and if haven't the token then push to login page

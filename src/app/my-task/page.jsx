@@ -34,7 +34,6 @@ export default function page() {
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log(data)
         setTasks(data);
       });
   }, [reload]);

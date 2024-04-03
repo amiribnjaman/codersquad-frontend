@@ -9,6 +9,7 @@ import { toast } from "react-toastify";
 
 export default function page({ params }) {
   const { setReload, reload } = useContext(TaskContext);
+  const [task, setTask] = useState({});
   const navigate = useRouter();
   const id = params.id;
   const {
@@ -18,7 +19,6 @@ export default function page({ params }) {
     reset,
   } = useForm();
 
-  const [task, setTask] = useState({});
 
   // Check token and if haven't the token then push to login page
   let token;

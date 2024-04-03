@@ -42,7 +42,6 @@ export default function page() {
       })
         .then((res) => res.json())
         .then((data) => {
-          console.log(data)
           if (data.status == "200") {
             // Set token into localstorage
             localStorage.setItem("Token", data.token);
