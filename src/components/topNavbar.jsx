@@ -1,12 +1,37 @@
-"use client";
-
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import Link from "next/link";
 
-export default function TopNavbar() {
+export default function TopNavbar({ tasks, setTasks, oldData }) {
+  const [showSearchCard, setShowSearchCard] = useState(false);
   const pathname = usePathname();
+  const [search, setSearch] = useState("");
   const getPath = pathname.split("/")[pathname.split("/").length - 1];
+  const [showMenu, setShowMenu] = useState(false);
+
+  // Handle Search operation function
+  const handleSearch = (e) => {
+    let result;
+    if (search) {
+      // Filter out the task which match with search value
+      result = tasks.filter((task) => {
+        return task.taskTitle.toLowerCase() == search.toLowerCase()
+          ? task.taskTitle.toLowerCase() == search.toLowerCase()
+          : task.taskTitle.toLowerCase().includes(search.toLowerCase());
+      });
+    }
+    // Send filtered value
+    setTasks(result);
+    // Reset search fields
+    setSearch("");
+    setShowSearchCard(false);
+  };
+
+  // Handle Refresh function
+  const handleRefresh = () => {
+    setTasks(oldData);
+    setShowSearchCard(false);
+  };
 
   // checking token for login/logout operation
   let token;
@@ -14,11 +39,21 @@ export default function TopNavbar() {
     token = localStorage.getItem("Token");
   }
 
+  // Handle logout button
+  const handleLogout = () => {
+    localStorage.removeItem("Token");
+    setLogoutBtn(!logoutBtn);
+    navigate.push("/login");
+  };
+
   return (
     <div id="topbar" className="w-full mb-2 sticky top-0 pt-2 z-50">
       <div className="navbar flex py-4 items-center justify-between bg-white shadow-lg rounded-md px-8 sticky top-0">
         <div className="md:flex-1">
-          <a className="cursor-pointer normal-case text-xl text-[#5d596c]">
+          <a
+            onClick={() => setShowSearchCard(!showSearchCard)}
+            className="cursor-pointer normal-case text-xl text-[#5d596c]"
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
@@ -35,17 +70,24 @@ export default function TopNavbar() {
             </svg>
           </a>
 
-          {/*------------------Search Card--------------- */}
-          {/* <div
-            className={` shadow-lg rounded-md w-full md:w-[350px] h-[150px] text-center flex flex-col justify-center items-center absolute top-[60px] md:top-[50px] left-0 md:left-[20%] bg-white border px-2`}
+          {/*---------Search Card--------------- */}
+          <div
+            className={`${
+              showSearchCard ? "block" : "hidden"
+            } shadow-md rounded-md w-[270px] h-[90px] text-center flex flex-col justify-center items-center absolute top-[50px] left-[20%] bg-white`}
           >
-            <div className="flex items-center justify-center px-2 gap-1">
+            <div className="flex items-center">
               <input
                 type="text"
-                className="bg-slate-100 w-[75%] rounded px-4 py-1"
+                className="border rounded px-4 py-1"
                 placeholder="Search by Task title"
+                onChange={(e) => setSearch(e.target.value)}
+                value={search}
               />
-              <button className="bg-blue-500 w-[13%] text-center py-1 px-1 rounded">
+              <button
+                onClick={handleSearch}
+                className="bg-blue-500 py-1 px-1 rounded"
+              >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
@@ -63,14 +105,20 @@ export default function TopNavbar() {
               </button>
             </div>
             <div className="flex gap-3 items-center mt-3">
-              <button className="bg-slate-500 px-4 py-1 rounded text-white">
+              <button
+                onClick={() => setShowSearchCard(false)}
+                className="bg-red-500 px-4 py-1 rounded text-white"
+              >
                 Cancel
               </button>
-              <button className="bg-green-800 px-4 py-1 rounded text-white">
+              <button
+                onClick={handleRefresh}
+                className="bg-green-500 px-4 py-1 rounded text-white"
+              >
                 Refresh
               </button>
             </div>
-          </div> */}
+          </div>
         </div>
 
         <div className="flex items-center gap-6">
@@ -129,7 +177,10 @@ export default function TopNavbar() {
 
           {/*--------------------HUMBER FOR MENU---------------- */}
           {/*--------------------HUMBER FOR MENU---------------- */}
-          <div className="flex flex-col md:hidden">
+          <div
+            onClick={() => setShowMenu(!showMenu)}
+            className="flex flex-col md:hidden"
+          >
             <div>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -149,7 +200,9 @@ export default function TopNavbar() {
 
             {/*-------------------------------------- MENU ITEMS FOR MOBILE ------------------- */}
             <ul
-              className={` menu menu-md md:w-full w-1/2 mt-4 md:hidden absolute top-6 right-[10px] bg-white shadow`}
+              className={`${
+                showMenu ? "block" : "hidden"
+              } menu menu-md md:w-full w-1/2 mt-4 md:hidden absolute top-6 right-[10px] bg-white shadow`}
             >
               {/* Basic Sidebar items */}
               <li
@@ -210,7 +263,7 @@ export default function TopNavbar() {
                 }`}
               >
                 <Link
-                  href="/my-team"
+                  href="/"
                   className={`text-[15px] flex gap-2 items-center`}
                 >
                   <svg
@@ -236,7 +289,7 @@ export default function TopNavbar() {
                 }`}
               >
                 <Link
-                  href="/settings"
+                  href="/"
                   className={`text-[15px] flex gap-2 items-center`}
                 >
                   <svg

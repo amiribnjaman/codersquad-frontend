@@ -4,21 +4,21 @@ import Link from "next/link";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
-import {  useEffect } from "react";
+import { useContext } from "react";
+import { SearchContext } from "../context/SearchContext";
 
 export default function page() {
   const navigate = useRouter();
+  const { setReload, reload } = useContext(SearchContext);
 
   // Check token and if have the token then push to my task page
   let token;
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      token = localStorage.getItem("Token");
-    }
-    if (!token) {
-      navigate.push("/login");
-    }
-  }, []);
+  if (typeof window !== "undefined") {
+    token = localStorage.getItem("Token");
+  }
+  if (token) {
+    navigate.push("/my-task");
+  }
 
   const {
     register,
@@ -33,7 +33,7 @@ export default function page() {
   //Handle Login submit
   const loginSubmit = (data) => {
     if (data.email && data.password) {
-      fetch("http://localhost:4000//api/v1/user/login", {
+      fetch("http://localhost:4000/api/v1/user/login", {
         method: "POST",
         headers: {
           "content-type": "application/json",
@@ -54,13 +54,14 @@ export default function page() {
           }
         });
     }
+
     reset();
   };
 
   return (
     <div className="mt-10">
       <div className="flex justify-center items-center">
-        <div className="md:w-[60%] w-full shadow-md border px-5 py-10 text-center">
+        <div className="md:w-[60%] w-full shadow-md border  px-6 py-8 text-center">
           <h3 className="text-xl font-semibold">Login</h3>
           <form
             onSubmit={handleSubmit(loginSubmit)}

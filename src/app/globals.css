@@ -3,34 +3,32 @@
 @tailwind utilities;
 
 
-body {
-  /* background-color: #F9FAFC; */
+body{
+    /* background-color: #F9FAFC; */
 }
 
 /*------------SIDEBAR---------- */
 .LOGO {
-  display: inline-block;
-  width: 5px;
-  height: 10px;
-  background-color: white;
-  /* margin: 0 auto; */
-  margin-right: 5px;
-  border-top: 15px solid transparent;
-  border-right: 31px solid #ecf2ff;
-  border-bottom: 15px solid transparent;
-}
-
-.LOGO2 {
-  height: 10px;
-  background-color: white;
-  margin: 0 auto;
-  margin-right: 10px;
-  border-top: 15px solid transparent;
-  border-right: 31px solid #e6eeff;
-  border-bottom: 15px solid transparent;
-}
-
-/* .LOGO {
+        display: inline-block;
+        width: 5px;
+        height: 10px;
+        background-color: white;
+        /* margin: 0 auto; */
+        margin-right: 5px;
+        border-top: 15px solid transparent;
+        border-right: 31px solid #ecf2ff;
+        border-bottom: 15px solid transparent;
+    }
+    .LOGO2{
+        height: 10px;
+        background-color: white;
+        margin: 0 auto;
+        margin-right: 10px;
+        border-top: 15px solid transparent;
+        border-right: 31px solid #e6eeff;
+        border-bottom: 15px solid transparent;
+    }
+    /* .LOGO {
         display: inline-block;
         width: 5px;
         height: 10px;
@@ -50,8 +48,8 @@ body {
         border-right: 31px solid #e6eeff;
         border-bottom: 15px solid transparent;
     } */
-.sidebar__active {
-  color: #2565e6;
-  font-weight: 500;
-  background-color: #F9FAFC;
+.sidebar__active{
+    color: #2565e6;
+    font-weight: 500;
+    background-color: #F9FAFC;
 }

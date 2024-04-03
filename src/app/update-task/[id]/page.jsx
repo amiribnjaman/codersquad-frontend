@@ -1,12 +1,19 @@
 "use client";
 
+import { SearchContext } from "@/app/context/SearchContext";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 
+// const getTask = async (id) => {
+//   let data = await fetch(`http://localhost:4000/api/task/${id}`);
+//   data = await data.json();
+//   return data;
+// };
 
 export default function page({ params }) {
+  const { setReload, reload } = useContext(SearchContext);
   const navigate = useRouter();
   const id = params.id;
   const {
@@ -20,16 +27,16 @@ export default function page({ params }) {
 
   // Check token and if haven't the token then push to login page
   let token;
+  if (typeof window !== "undefined") {
+    token = localStorage.getItem("Token");
+  }
+  if (!token) {
+    navigate.push("/login");
+  }
+
   // Load task data
   useEffect(() => {
-    if (typeof window !== "undefined") {
-      token = localStorage.getItem("Token");
-    }
-    if (!token) {
-      navigate.push("/login");
-    }
-
-    fetch(`http://localhost:4000/api/v1/task/${id}`, {
+    fetch(`http://localhost:4000/api/task/${id}`, {
       method: "GET",
       headers: {
         authorization: "Bearer " + localStorage.getItem("Token"),
@@ -156,3 +163,8 @@ export default function page({ params }) {
     </div>
   );
 }
+
+// export const metadata = {
+//   title: "Dashboard - TaskTrack",
+//   description: "TaskTrack is a task management application",
+// };

@@ -4,21 +4,18 @@ import Link from "next/link";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
-import { useEffect } from "react";
 
 export default function page() {
   const navigate = useRouter();
 
   // Check token and if have the token then push to my task page
   let token;
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      token = localStorage.getItem("Token");
-    }
-    if (token) {
-      navigate.push("/my-task");
-    }
-  }, []);
+  if (typeof window !== "undefined") {
+    token = localStorage.getItem("Token");
+  }
+  if (token) {
+    navigate.push("/my-task");
+  }
 
   const {
     register,
@@ -30,7 +27,7 @@ export default function page() {
   // Signup submit function
   const signUpSubmit = (data) => {
     if (data.name && data.email && data.password) {
-      fetch("http://localhost:4000//api/v1/user/signup", {
+      fetch("http://localhost:4000/api/v1/user/signup", {
         method: "POST",
         headers: {
           "content-type": "application/json",
@@ -50,6 +47,7 @@ export default function page() {
           }
         });
     }
+
     reset();
   };
 
@@ -59,7 +57,7 @@ export default function page() {
   return (
     <div className="mt-8">
       <div className="flex justify-center items-center">
-        <div className="md:w-[60%] w-full shadow-md border px-5 py-8 text-center min-h-[200px]">
+        <div className="md:w-[60%] w-full shadow-md border px-6 py-8 text-center min-h-[200px]">
           <h3 className="text-xl font-semibold">Signup</h3>
           {/* {errors && <Toaster />} */}
           <form
