@@ -38,7 +38,7 @@ export default function LayoutComponent({ children }) {
           <TopNavbar setReload={setReload} tasks={tasks} setTasks={setTasks} />
           <TaskContext.Provider value={{ reload, setReload, tasks, setTasks }}>
             <div className="min-h-[85vh] md:flex gap-6 justify-between">
-              <div className="mt-4 p-4 pb-6 md:w-[90%] border">
+              <div className="mt-4 p-4 pb-6 md:w-[100%] border">
                 <ToastContainer position="top-center" />
                 {children}
               </div>

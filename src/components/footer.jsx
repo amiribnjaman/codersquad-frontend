@@ -6,8 +6,8 @@ export default function Footer() {
     return (
         <div className="flex justify-between my-5">
             <p className="text-[14px]">
-                <Link href="/dashboard" className="cursor-pointer text-[#2565e6]" >TaskTrack</Link> - 
-                2023. All right reserved</p>
+                <Link href="/dashboard" className="cursor-pointer text-[#2565e6]" >amartask</Link> - 
+                2024. All right reserved</p>
             <ul className="flex gap-5 text-[13px]">
                 <li>
                     <Link href="/dashboard" className="cursor-pointer">Terms & Conditions</Link>

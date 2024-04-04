@@ -4,8 +4,8 @@ import LayoutComponent from "./layoutComponent";
 import "react-toastify/dist/ReactToastify.css";
 
 export const metadata = {
-  title: "Dasboard - TaskTrack",
-  description: "TaskTrack is a task management application",
+  title: "Dasboard - AmarTask",
+  description: "AmarTask is a task management application",
 };
 
 
