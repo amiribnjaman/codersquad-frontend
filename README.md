@@ -22,7 +22,7 @@ npm run dev
     *Password: 12345678
 
 
-# Packages for backend
+# Packages for frontend
 * NEXTJS
 * REACT
 * REACT HOOK FORM
