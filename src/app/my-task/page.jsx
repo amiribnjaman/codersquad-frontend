@@ -25,7 +25,7 @@ export default function page() {
   }
 
   useEffect(() => {
-    fetch("http://localhost:4000/api/v1/task/my-task", {
+    fetch("https://codersquad-backend.onrender.com/api/v1/task/my-task", {
       method: "GET",
       headers: {
         authorization: "Bearer " + localStorage.getItem("Token"),
@@ -40,13 +40,16 @@ export default function page() {
 
   // Handle delete a task
   const handleDeleteTask = () => {
-    fetch(`http://localhost:4000/api/v1/task/${deleteConfirmationId}`, {
-      method: "DELETE",
-      headers: {
-        authorization: "Bearer " + localStorage.getItem("Token"),
-        "content-type": "application/json",
-      },
-    })
+    fetch(
+      `https://codersquad-backend.onrender.com/api/v1/task/${deleteConfirmationId}`,
+      {
+        method: "DELETE",
+        headers: {
+          authorization: "Bearer " + localStorage.getItem("Token"),
+          "content-type": "application/json",
+        },
+      }
+    )
       .then((res) => res.json())
       .then((data) => {
         if (data.status == "204") {
@@ -243,7 +246,7 @@ export default function page() {
           </div>
         ) : (
           <div className="text-center flex justify-center items-center mt-10 gap-2">
-            <p>You don't create any task yet!</p>
+            <p>You didn't create any task yet!</p>
             <button
               onClick={() => navigate.push("/create-task")}
               className="border border-[#2565e6] px-2 py-1 rounded-lg text-sm"

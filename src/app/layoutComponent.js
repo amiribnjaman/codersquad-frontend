@@ -13,7 +13,7 @@ export default function LayoutComponent({ children }) {
   const [tasks, setTasks] = useState([]);
 
   useEffect(() => {
-    fetch("http://localhost:4000/api/v1/task", {
+    fetch("https://codersquad-backend.onrender.com/api/v1/task", {
       method: "GET",
       headers: {
         authorization: "Bearer " + localStorage.getItem("Token"),
@@ -35,14 +35,8 @@ export default function LayoutComponent({ children }) {
       <div className="bg-[#F8F7FA] md:w-[80%] h-full">
         <div className="px-6 relative">
           {/* Top Navbar  */}
-          <TopNavbar
-            setReload={setReload}
-            tasks={tasks}
-            setTasks={setTasks}
-          />
-          <TaskContext.Provider
-            value={{ reload, setReload, tasks, setTasks }}
-          >
+          <TopNavbar setReload={setReload} tasks={tasks} setTasks={setTasks} />
+          <TaskContext.Provider value={{ reload, setReload, tasks, setTasks }}>
             <div className="min-h-[85vh] md:flex gap-6 justify-between">
               <div className="mt-4 p-4 pb-6 md:w-[90%] border">
                 <ToastContainer position="top-center" />

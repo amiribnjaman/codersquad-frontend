@@ -27,7 +27,7 @@ export default function page() {
   // Signup submit function
   const signUpSubmit = (data) => {
     if (data.name && data.email && data.password) {
-      fetch("http://localhost:4000/api/v1/user/signup", {
+      fetch("https://codersquad-backend.onrender.com/api/v1/user/signup", {
         method: "POST",
         headers: {
           "content-type": "application/json",

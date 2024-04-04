@@ -6,7 +6,6 @@ import { useContext, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 
-
 export default function page({ params }) {
   const { setReload, reload } = useContext(TaskContext);
   const [task, setTask] = useState({});
@@ -19,7 +18,6 @@ export default function page({ params }) {
     reset,
   } = useForm();
 
-
   // Check token and if haven't the token then push to login page
   let token;
   if (typeof window !== "undefined") {
@@ -31,7 +29,7 @@ export default function page({ params }) {
 
   // Load task data
   useEffect(() => {
-    fetch(`http://localhost:4000/api/v1/task/${id}`, {
+    fetch(`https://codersquad-backend.onrender.com/api/v1/task/${id}`, {
       method: "GET",
       headers: {
         authorization: "Bearer " + localStorage.getItem("Token"),
@@ -40,7 +38,6 @@ export default function page({ params }) {
     })
       .then((res) => res.json())
       .then((data) => {
-
         reset({
           taskTitle: data.taskTitle,
           completion: data.completion,
@@ -71,7 +68,7 @@ export default function page({ params }) {
     }
 
     if (data) {
-      fetch(`http://localhost:4000/api/v1/task/${id}`, {
+      fetch(`https://codersquad-backend.onrender.com/api/v1/task/${id}`, {
         method: "PATCH",
         headers: {
           authorization: "Bearer " + localStorage.getItem("Token"),

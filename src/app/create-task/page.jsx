@@ -10,7 +10,6 @@ export default function page() {
   const navigate = useRouter();
   const { setReload, reload } = useContext(TaskContext);
 
-
   // Check token and if haven't the token then push to login page
   let token;
   if (typeof window !== "undefined") {
@@ -33,7 +32,7 @@ export default function page() {
   // Handle create task
   const handleCreateTask = (data) => {
     if (data) {
-      fetch("http://localhost:4000/api/v1/task", {
+      fetch("https://codersquad-backend.onrender.com/api/v1/task", {
         method: "POST",
         headers: {
           authorization: "Bearer " + localStorage.getItem("Token"),
@@ -45,7 +44,7 @@ export default function page() {
         .then((data) => {
           if (data.status == "201") {
             toast.success("A Task created succefully!");
-            setReload(!reload)
+            setReload(!reload);
           } else {
             toast.error(data.msg);
           }
@@ -87,27 +86,27 @@ export default function page() {
             </p>
 
             {/* <div className="flex justify-between"> */}
-              <input
-                {...register("teamLeader", { required: true })}
-                type="text"
-                placeholder="Team Leader"
-                className="px-2 pl-4 py-2 rounded-full"
-              />
-              <p className="hidden">
-                {errors?.teamLeader &&
-                  toast.error("Leader name is required", { toastId: customId })}
-              </p>
+            <input
+              {...register("teamLeader", { required: true })}
+              type="text"
+              placeholder="Team Leader"
+              className="px-2 pl-4 py-2 rounded-full"
+            />
+            <p className="hidden">
+              {errors?.teamLeader &&
+                toast.error("Leader name is required", { toastId: customId })}
+            </p>
 
-              <input
-                {...register("teamMemberNum", { required: true })}
-                type="number"
-                placeholder="Total Member"
-                className="px-2 pl-4 py-2 rounded-full"
-              />
-              <p className="hidden">
-                {errors?.teamMemberNum &&
-                  toast.error("Team members is required", { toastId: customId })}
-              </p>
+            <input
+              {...register("teamMemberNum", { required: true })}
+              type="number"
+              placeholder="Total Member"
+              className="px-2 pl-4 py-2 rounded-full"
+            />
+            <p className="hidden">
+              {errors?.teamMemberNum &&
+                toast.error("Team members is required", { toastId: customId })}
+            </p>
             {/* </div> */}
 
             {/* <div className="flex justify-between">

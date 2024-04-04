@@ -25,13 +25,16 @@ export default function page() {
 
   // Handle delete a task
   const handleDeleteTask = () => {
-    fetch(`http://localhost:4000/api/v1/task/${deleteConfirmationId}`, {
-      method: "DELETE",
-      headers: {
-        authorization: "Bearer " + localStorage.getItem("Token"),
-        "content-type": "application/json",
-      },
-    })
+    fetch(
+      `https://codersquad-backend.onrender.com/api/v1/task/${deleteConfirmationId}`,
+      {
+        method: "DELETE",
+        headers: {
+          authorization: "Bearer " + localStorage.getItem("Token"),
+          "content-type": "application/json",
+        },
+      }
+    )
       .then((res) => res.json())
       .then((data) => {
         if (data.status == "204") {
@@ -115,6 +118,11 @@ export default function page() {
                     <p className="mb-2 text-[#2565e6] capitalize">
                       {task.taskTitle}
                     </p>
+                    <h6>
+                      Creator email:
+                      <span className="mb-2 text-[#7a9aba]  text-sm"></span>
+                      {task.creatorEmail}
+                    </h6>
                     <hr />
                   </div>
                   {/* Body */}

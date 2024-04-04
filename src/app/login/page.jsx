@@ -33,7 +33,7 @@ export default function page() {
   //Handle Login submit
   const loginSubmit = (data) => {
     if (data.email && data.password) {
-      fetch("http://localhost:4000/api/v1/user/login", {
+      fetch("https://codersquad-backend.onrender.com/api/v1/user/login", {
         method: "POST",
         headers: {
           "content-type": "application/json",
