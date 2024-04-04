@@ -18,17 +18,19 @@ export default function page({ params }) {
     reset,
   } = useForm();
 
-  // Check token and if haven't the token then push to login page
   let token;
-  if (typeof window !== "undefined") {
-    token = localStorage.getItem("Token");
-  }
-  if (!token) {
-    navigate.push("/login");
-  }
-
+  
+  
   // Load task data
   useEffect(() => {
+    // Check token and if haven't the token then push to login page
+    if (typeof window !== "undefined") {
+      token = localStorage.getItem("Token");
+    }
+    if (!token) {
+      navigate.push("/login");
+    }
+
     fetch(`https://codersquad-backend.onrender.com/api/v1/task/${id}`, {
       method: "GET",
       headers: {

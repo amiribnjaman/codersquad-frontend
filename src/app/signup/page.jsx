@@ -4,18 +4,21 @@ import Link from "next/link";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 
 export default function page() {
   const navigate = useRouter();
 
   // Check token and if have the token then push to my task page
   let token;
-  if (typeof window !== "undefined") {
-    token = localStorage.getItem("Token");
-  }
-  if (token) {
-    navigate.push("/my-task");
-  }
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      token = localStorage.getItem("Token");
+    }
+    if (token) {
+      navigate.push("/my-task");
+    }
+  },[])
 
   const {
     register,
@@ -27,7 +30,7 @@ export default function page() {
   // Signup submit function
   const signUpSubmit = (data) => {
     if (data.name && data.email && data.password) {
-      fetch("https://codersquad-backend.onrender.com/api/v1/user/signup", {
+      fetch("http://localhost:4000/api/v1/user/signup", {
         method: "POST",
         headers: {
           "content-type": "application/json",

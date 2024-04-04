@@ -10,33 +10,21 @@ export default function page() {
   const [deleteConfirmationCard, setdeleteConfirmationCard] = useState(false);
   const [deleteConfirmationId, setdeleteConfirmationId] = useState("");
   const navigate = useRouter();
-  const [tasks, setTasks] = useState([]);
+  // const [tasks, setTasks] = useState([]);
 
   // SERACH CONTEXT VALUE
-  const { setReload, reload } = useContext(TaskContext);
+  const { setReload, reload, myTask: tasks } = useContext(TaskContext);
 
   // Check token and if haven't the token then push to login page
   let token;
-  if (typeof window !== "undefined") {
-    token = localStorage.getItem("Token");
-  }
-  if (!token) {
-    navigate.push("/login");
-  }
-
   useEffect(() => {
-    fetch("https://codersquad-backend.onrender.com/api/v1/task/my-task", {
-      method: "GET",
-      headers: {
-        authorization: "Bearer " + localStorage.getItem("Token"),
-        "content-type": "application/json",
-      },
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        setTasks(data);
-      });
-  }, [reload]);
+    if (typeof window !== "undefined") {
+      token = localStorage.getItem("Token");
+    }
+    if (!token) {
+      navigate.push("/login");
+    }
+  }, []);
 
   // Handle delete a task
   const handleDeleteTask = () => {

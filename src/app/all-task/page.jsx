@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import { TaskContext } from "../context/TaskContext";
 import Link from "next/link";
 import { toast } from "react-toastify";
@@ -16,12 +16,14 @@ export default function page() {
 
   // Check token and if haven't the token then push to login page
   let token;
-  if (typeof window !== "undefined") {
-    token = localStorage.getItem("Token");
-  }
-  if (!token) {
-    navigate.push("/login");
-  }
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      token = localStorage.getItem("Token");
+    }
+    if (!token) {
+      navigate.push("/login");
+    }
+  }, []);
 
   // Handle delete a task
   const handleDeleteTask = () => {
@@ -118,9 +120,9 @@ export default function page() {
                     <p className="mb-2 text-[#2565e6] capitalize">
                       {task.taskTitle}
                     </p>
-                    <h6>
+                    <h6 className="text-[11px] mb-2">
                       Creator email:
-                      <span className="mb-2 text-[#7a9aba]  text-sm"></span>
+                      <span className="mb-2 ml-1 text-[#7a9aba]  text-sm"></span>
                       {task.creatorEmail}
                     </h6>
                     <hr />
