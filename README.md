@@ -1,24 +1,31 @@
-## Task track
-Task track is a Task management application 
+# AmarTask
+AmarTask is task management application where a individual user can create, update, delete their own task, and can see others person created task. For these action user must have to login through creating an account.
 
-Here user can CREATE, UPDATE, AND DELETE their task. First of all, they have to create an account (signup) and then he/she can log in.
-Login users can see all tasks that he creates and also can update and delete
+# instruction
+For run the project in locally
+First install the initial packages 
+```
+npm install
+```
+ or
+ ```
+ yarn add
+```
+and then run the application through 
+```
+npm run dev.
+```
 
-# Testing guide
-first, clone the project and install initial packages by run NPM I command
+# Admin credentials
 
-# Credentials
-You can sign & log in but for testing purposes, you can use: 
-email: admin@mail.com
-password: 123456
+    *Mail: admin@mail.com
+    *Password: 12345678
 
-# About Development
-First user signup and login used API Endpoint.
-For checking user login or not I used localStorage.
-Implemented Search operation and pagination.
 
-# Technologies
-next,
-react-hook-form,
-react-toastify,
-tailwind css
+# Packages for backend
+* NEXTJS
+* REACT
+* REACT HOOK FORM
+* REACT TOASTIFY
+* AUTHOPREFIXER
+* TAILWIND
