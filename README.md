@@ -13,7 +13,7 @@ npm install
 ```
 and then run the application through 
 ```
-npm run dev.
+npm run dev
 ```
 
 # Admin credentials
