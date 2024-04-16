@@ -202,7 +202,7 @@ export default function page() {
                     <div
                       className={`${
                         deleteConfirmationCard ? "block" : "hidden"
-                      } fixed top-[20%] left-[33%] shadow bg-white w-[330px] text-center rounded py-3 h-[170px] flex flex-col justify-center`}
+                      } fixed top-[20%] md:left-[33%] shadow bg-white w-[330px] text-center rounded py-3 h-[170px] flex flex-col justify-center`}
                       style={{ backdropFilter: "blur(8px)" }}
                     >
                       <div>
