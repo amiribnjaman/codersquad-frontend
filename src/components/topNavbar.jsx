@@ -6,7 +6,6 @@ export default function TopNavbar() {
   const pathname = usePathname();
   const getPath = pathname.split("/")[pathname.split("/").length - 1];
   const [showMenu, setShowMenu] = useState(false);
-  
 
   // checking token for login/logout operation
   let token;
@@ -23,9 +22,9 @@ export default function TopNavbar() {
 
   return (
     <div id="topbar" className="w-full mb-2 sticky top-0 pt-2 z-50">
-      <div className="navbar flex py-4 items-center justify-between bg-white shadow-lg rounded-md px-8 sticky top-0">
+      <div className="navbar flex py-3 items-center justify-between bg-white shadow-lg rounded-md px-6 sticky top-0">
         <div className="md:flex-1">
-          <a className="cursor-pointer normal-case text-xl text-[#5d596c]">
+          <a className="cursor-pointer normal-case text-xl text-[#5d596c] hidden md:block">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
@@ -41,6 +40,22 @@ export default function TopNavbar() {
               />
             </svg>
           </a>
+          {/* 
+          ****
+          Logo for small devices 
+          ****
+          */}
+          <div className='block md:hidden'>
+            <h3 className="text-[#5d596c] flex itemsc-center text-[22px] font-semibold p-2 mt-2 mb-4">
+              {/* LOGO */}
+              <span className="LOGO"></span>
+              {/* <span className="LOGO2"></span> */}
+              <span className="-ml-[27px] text-[#2565e6] mr-3 text-[22px] font-semibold">
+                at
+              </span>
+              amar<span className="text-[#2565e6]">task</span>
+            </h3>
+          </div>
         </div>
 
         <div className="flex items-center gap-6">
